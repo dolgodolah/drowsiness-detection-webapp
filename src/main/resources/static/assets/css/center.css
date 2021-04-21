@@ -1,0 +1,17 @@
+.center {
+    padding-top: 100px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.center .start {
+    margin-bottom: 20px;
+}
+
+.center .start__btn {
+    color: white;
+    font-size: 36px;
+    text-decoration: none;
+}
