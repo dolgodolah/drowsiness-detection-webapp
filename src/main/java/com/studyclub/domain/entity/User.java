@@ -27,31 +27,31 @@ public class User {
 	
 	@Column(nullable = false)
 	@Pattern(regexp="^[a-zA-Z0-9_]{5,12}$", message="5~12자의 영문 소문자, 숫자와 특수기호(_)만 사용 가능합니다.")
-	private String userNickname;
+	private String nickname;
 
 	
 	@Pattern(regexp="^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,}$", message = "비밀번호는 영문자와 특수문자를 포함한 숫자 8자 이상 입력해주세요.")
 	@Column(nullable = false)
-	private String userPw;
+	private String password;
 	
 	@Column
-	private Long studyTime;
+	private Long studytime;
 	
 	@PrePersist
 	public void prePersist() {
-		this.studyTime=this.studyTime == null ? 0 : this.studyTime;
+		this.studytime=this.studytime == null ? 0 : this.studytime;
 	}
 
 	@Builder
-	public User(Long id, String userNickname, String userPw) {
+	public User(Long id, String nickname, String password) {
 		this.id=id;
-		this.userNickname = userNickname;
-		this.userPw = userPw;
+		this.nickname = nickname;
+		this.password = password;
 	}
 	
 	
-	public void saveStudyTime(Long time) {
-		this.studyTime+=time;
+	public void saveStudytime(Long time) {
+		this.studytime+=time;
 	}
 	
 

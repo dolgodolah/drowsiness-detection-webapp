@@ -38,15 +38,12 @@ public class UserController {
 	@PostMapping("/user/login")
 	public String login(Model model, User user, HttpSession session) {
 		
-		//로그인 정보가 올바른지 확인한 결과
-		Optional<User> result = userService.checkLogin(user);
-		//입력받은 로그인 정보에 대한 유저가 존재한다.
-		if (result.isPresent()) {
+		//입력받은 로그인 정보에 대한 유저가 존재하는지 확인한다.
+		if (userService.checkLogin(user)) {
 			//세션을 해당 유저의 id로 설정한다.
-			session.setAttribute("id", user.getUserNickname());
+			session.setAttribute("id", user.getNickname());
 			return "redirect:/";
 		}
-		//로그인 정보가 올바르지 않다.
 		else {
 			model.addAttribute("result","error");
 			return "/user/login";
@@ -67,7 +64,7 @@ public class UserController {
 			return "/user/join";
 		}
 		//해당 아이디가 이미 존재하는 경우.
-		else if(userService.findOne(user.getUserNickname()).isPresent()) {
+		else if(userService.findOne(user.getNickname()).isPresent()) {
 			model.addAttribute("isPresent","true");
 			return "/user/join";
 		}

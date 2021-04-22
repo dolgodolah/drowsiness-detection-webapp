@@ -38,9 +38,8 @@ public class StudyController {
 	public String saveStudyTime(Long studyTime, HttpSession session, User user) {
 		String nickname = session.getAttribute("id").toString();
 		user = userService.findOne(nickname).get();
-		user.saveStudyTime(studyTime);
+		user.saveStudytime(studyTime);
 		userService.save(user);
-		
 		return "redirect:/";
 	}
 }
