@@ -1,11 +1,13 @@
 package com.studyclub.service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.studyclub.domain.entity.User;
@@ -20,8 +22,8 @@ public class UserService {
 		this.userRepository = userRepository;
 	}
 	
-	public Optional<User> findOne(String userNickname) {
-		return userRepository.findByUserNickname(userNickname);
+	public Optional<User> findOne(String nickname) {
+		return userRepository.findByNickname(nickname);
 	}
 	
 	@Transactional
@@ -29,9 +31,16 @@ public class UserService {
 		return userRepository.save(user).getId();
 	}
 	
-	public Optional<User> checkLogin(User user) {
-		return userRepository.findByUserNicknameAndUserPw(user.getUserNickname(),user.getUserPw());
+	public boolean checkLogin(User user) {
+		Optional<User> result = userRepository.findByNickname(user.getNickname());
+	
+		//입력받은 닉네임이 존재하고, 비밀번호도 일치하면 true를 반환한다.
+		if(result.isPresent()&&result.get().getPassword().equals(user.getPassword()))return true;
+		else return false;
 	}
 	
+	public List<User> rankUser(){
+		return userRepository.findAll(Sort.by(Sort.Direction.DESC,"studytime"));
+	}
 
 }
