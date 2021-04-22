@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <title>StudyClub</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+
+	<div class="navbar">
+		<a class="home" th:href="@{/}"><i class="fa fa-fw fa-home"></i>Home</a>
+	</div>
+    <div class="login-page">
+    	<p>회원가입</p>
+    	<div class="form">
+	    	<form class="register-form" th:object="${user}" action="/user/join" method="post">
+	    		<p class="alert" th:if="${isPresent=='true'}">이미 존재하는 아이디입니다.</p>
+	    		
+	    		<input type="text" th:field="*{nickname}" placeholder="아이디"/>
+	      		<p class="alert" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}"></p>
+
+	    		<input type="password" th:field="*{password}" placeholder="비밀번호"/>
+	    		<div class="alert" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+	    		
+	    		<!-- <input type="text" placeholder="email address"/> -->
+	      		
+	    		
+	      		<button type="submit">create</button>
+	      		
+	      		<p class="message">Already registered? <a th:href="@{/user/login}">Sign In</a></p>
+	    	</form>
+	  	</div>
+	</div>
+	
+</body>
+
+</html>

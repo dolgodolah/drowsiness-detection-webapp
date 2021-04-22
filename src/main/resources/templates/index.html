@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <title>StudyClub</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <header th:insert="common/header.html"></header>
+    
+    <section class="center">
+        <div class="js-clock clock">
+            <h1 class="clock__text">00:00</h1>
+        </div>
+        <div class="start">
+            <a class="start__btn" th:if=${session.id==null} th:href="@{/user/login}"><i class="fa fa-book"></i>시작하기</a>
+            <a class="start__btn" th:if=${session.id!=null} th:href="@{/study}"><i class="fa fa-book"></i>시작하기</a>
+        </div>
+        <div>
+            <form class="js-toDoForm">
+                <input type="text" placeholder="Write a to do">
+            </form>
+            <ul class="js-toDoList list"></ul>
+        </div>
+    </section>
+
+    <div class="js-weather weather">
+        <span class="weather__text"></span>
+    </div>
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+	
+    <script src="assets/js/clock.js"></script>
+    <script src="assets/js/todo.js"></script>
+    <script src="assets/js/bg.js"></script>
+    <script src="assets/js/weather.js"></script>
+</body>
+
+</html>

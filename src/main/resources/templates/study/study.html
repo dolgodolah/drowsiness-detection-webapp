@@ -96,6 +96,11 @@
                     type: "POST",
                     data: form
                 });
+                const hours = Math.floor(studySec / 3600);
+                studySec %= 3600;
+                const minutes = Math.floor(studySec / 60);
+                studySec %= 60;
+                alert(`${hours}시간 ${minutes}분 ${studySec}초 공부했습니다.`);
                 location.replace("/");
             }
         </script>

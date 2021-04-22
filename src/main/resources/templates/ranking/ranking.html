@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <title>StudyClub</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <header th:insert="common/header.html"></header>
+
+	<div class="center">
+	    <table class="table">
+	        <thead class="thead-light">
+	        <tr class="text-center">
+	            <th scope="col">#</th>
+	            <th scope="col">닉네임</th>
+	            <th scope="col">경험치</th>
+	        </tr>
+	        </thead>
+	        <tbody>
+	        <tr class="text-center" th:each="user : ${users}">
+	            <th scope="row">
+	                <span th:text="${userStat.index+1}"></span>
+	            </th>
+	            <td>
+	                <span th:text="${user.nickname}"></span>
+	            </td>
+	            <td>
+	                <span th:text="${user.studytime}"></span>
+	            </td>
+	        </tr>
+	        </tbody>
+	    </table>
+	</div>
+</body>
+
+</html>

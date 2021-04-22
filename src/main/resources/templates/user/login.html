@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <title>StudyClub</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+	<div class="navbar">
+		<a class="home" th:href="@{/}"><i class="fa fa-fw fa-home"></i>Home</a>
+	</div>
+
+    <div class="login-page">
+    	<p>로그인</p>
+    	<div class="form">
+	    	<p th:if="${result} == 'error'" class="alert">가입하지 않은 아이디이거나, 잘못된 비밀번호입니다.</p>
+	   		<p th:if="${result} == 'success'" class="alert">축하드립니다, 성공적으로 회원가입이 완료되었습니다.</p>
+	    	<form class="login-form" action="/user/login" method="post">
+	      		<input type="text" name="nickname" placeholder="아이디"/>
+	      		<input type="password" name="password" placeholder="비밀번호"/>
+	      		<button type="submit">login</button>
+	      		<p class="message">Not registered? <a th:href="@{/user/join}">Create an account</a></p>
+	    	</form>
+	  	</div>
+	</div>
+	    
+
+	
+
+</body>
+
+</html>
