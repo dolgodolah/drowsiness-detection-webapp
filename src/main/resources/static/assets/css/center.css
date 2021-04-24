@@ -21,3 +21,16 @@
 	text-align:center;
 }
 
+.pagination{
+	margin-top:50px;
+}
+
+.page-item{
+	float:left;
+	margin:0 10px 0 10px;
+}
+
+.page-link{
+	text-decoration:none;
+	color:white;
+}

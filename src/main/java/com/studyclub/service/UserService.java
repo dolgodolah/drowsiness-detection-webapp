@@ -7,6 +7,8 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -39,8 +41,8 @@ public class UserService {
 		else return false;
 	}
 	
-	public List<User> rankUser(){
-		return userRepository.findAll(Sort.by(Sort.Direction.DESC,"studytime"));
+	public Page<User> rankUser(Pageable pageable){
+		return userRepository.findAll(pageable);
 	}
 
 }

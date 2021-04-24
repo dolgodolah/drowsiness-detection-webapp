@@ -24,7 +24,8 @@
 	        <tbody>
 	        <tr class="text-center" th:each="user : ${users}">
 	            <th scope="row">
-	                <span th:text="${userStat.index+1}"></span>
+	                <span th:text="${userStat.index+1+page}"></span>
+	                
 	            </th>
 	            <td>
 	                <span th:text="${user.nickname}"></span>
@@ -35,6 +36,11 @@
 	        </tr>
 	        </tbody>
 	    </table>
+	    <ul class="pagination">
+	    	<!-- 현재 page의 number가 1이라면 previous=0, next=2일 것이다. -->
+	    	<li class="page-item"><a class="page-link" th:href="@{'?page=' + ${previous}}">이전</a></li>
+	    	<li class="page-item"><a class="page-link" th:href="@{'?page=' + ${next}}">다음</a></li>
+	    </ul>
 	</div>
 </body>
 
