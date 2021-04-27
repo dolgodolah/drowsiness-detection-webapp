@@ -1,4 +1,4 @@
-package com.studyclub.domain.entity;
+package com.studyclub.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

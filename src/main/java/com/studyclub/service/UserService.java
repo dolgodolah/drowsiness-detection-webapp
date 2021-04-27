@@ -12,8 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.studyclub.domain.entity.User;
-import com.studyclub.domain.repository.UserRepository;
+import com.studyclub.domain.User;
+import com.studyclub.repository.UserRepository;
 
 @Service
 public class UserService {
@@ -29,11 +29,18 @@ public class UserService {
 	}
 	
 	@Transactional
-	public Long save(User user) {
+	public Long join(User user) {
+		validateDuplicateUser(user);
 		return userRepository.save(user).getId();
 	}
 	
-	public boolean checkLogin(User user) {
+	private void validateDuplicateUser(User user) {
+		if (userRepository.findByNickname(user.getNickname()).isPresent()) {
+			throw new IllegalStateException("이미 존재하는 닉네임입니다.");
+		}
+	}
+	
+	public boolean login(User user) {
 		Optional<User> result = userRepository.findByNickname(user.getNickname());
 	
 		//입력받은 닉네임이 존재하고, 비밀번호도 일치하면 true를 반환한다.

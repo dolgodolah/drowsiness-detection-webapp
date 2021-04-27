@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.studyclub.domain.entity.User;
+import com.studyclub.domain.User;
 import com.studyclub.service.UserService;
 
 @Controller

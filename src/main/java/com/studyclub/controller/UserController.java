@@ -13,7 +13,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.studyclub.domain.entity.User;
+import com.studyclub.domain.User;
+import com.studyclub.dto.UserForm;
 import com.studyclub.service.UserService;
 
 @Controller
@@ -21,65 +22,76 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
-	public UserController(UserService userService) {
+	private HttpSession session;
+	public UserController(UserService userService, HttpSession session) {
+		this.session=session;
 		this.userService=userService;
 	}
 	
 	@GetMapping("/")
-	public String main(HttpSession session) {
+	public String main() {
 		return "index";
 	}
 	
-	@GetMapping("/user/login")
-	public String login() {
+	@GetMapping("/login")
+	public String login(Model model) {
+		model.addAttribute("userForm", new UserForm());
 		return "/user/login";
 	}
 	
-	@PostMapping("/user/login")
-	public String login(Model model, User user, HttpSession session) {
+	@PostMapping("/login")
+	public String login(@Valid UserForm userForm, BindingResult result, Model model) {
+		//입력하지 않은 칸이 있는지 확인한다.
+		if (result.hasErrors()) {
+			return "/user/login";
+		}
 		
-		//입력받은 로그인 정보에 대한 유저가 존재하는지 확인한다.
-		if (userService.checkLogin(user)) {
-			//세션을 해당 유저의 id로 설정한다.
-			session.setAttribute("id", user.getNickname());
+		
+		//입력받은 로그인 정보에 대한 유저 유효한지 확인한다.
+		User user = new User();
+		user.setNickname(userForm.getNickname());
+		user.setPassword(userForm.getPassword());
+		
+		if (userService.login(user)) {
+			session.setAttribute("USER", userForm);
 			return "redirect:/";
 		}
-		else {
-			model.addAttribute("result","error");
-			return "/user/login";
-			
-		}
+		
+		//닉네임이 존재하지 않거나 비밀번호 틀림
+		model.addAttribute("inval", "존재하지 않는 닉네임이거나, 틀린 비밀번호입니다.");
+		return "/user/login";
 	}
 	
 	
-	@GetMapping("/user/join")
-	public String join(User user) {
+	@GetMapping("/join")
+	public String join(Model model) {
+		model.addAttribute("user", new User());
 		return "/user/join";
 	}
 	
-	@PostMapping("/user/join")
+	@PostMapping("/join")
 	public String join(@Valid User user, BindingResult result, Model model) {
-		//아이디나 비밀번호가 유효하지 않다면 해당 에러 메세지를 출력한다.
+		//닉네임이나 비밀번호가 형식에 맞지 않다면 에러 메세지를 출력한다.
 		if(result.hasErrors()) {
 			return "/user/join";
 		}
-		//해당 아이디가 이미 존재하는 경우.
-		else if(userService.findOne(user.getNickname()).isPresent()) {
-			model.addAttribute("isPresent","true");
+		
+		try {
+			userService.join(user);
+		}catch (Exception e) {
+			//이미 존재하는 닉네임
+			model.addAttribute("inval", e.getMessage());
 			return "/user/join";
 		}
 		
-		//정상적으로 회원가입 처리가 될 경우.
-		model.addAttribute("result","success");
-		userService.save(user);
-	
-		return "/user/login";
+		//회원가입 성공
+		return "redirect:/";
 	}
 	
-	@GetMapping("/user/logout")
-	public String logout(HttpSession session) {
+	@GetMapping("/logout")
+	public String logout() {
 		//로그아웃 시 세션을 초기화한다.
-		session.invalidate();
+		session.removeAttribute("USER");
 		return "redirect:/";
 	}
 
