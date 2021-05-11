@@ -35,23 +35,28 @@ public class User {
 	private String password;
 	
 	@Column
-	private Long studytime;
+	private boolean studying;
+	
+	@Column
+	private Long studyTime;
 	
 	@PrePersist
 	public void prePersist() {
-		this.studytime=this.studytime == null ? 0 : this.studytime;
+		this.studyTime=this.studyTime == null ? 0 : this.studyTime;
 	}
 
-	@Builder
-	public User(Long id, String nickname, String password) {
-		this.id=id;
-		this.nickname = nickname;
-		this.password = password;
-	}
 	
 	
 	public void saveStudytime(Long time) {
-		this.studytime+=time;
+		this.studyTime+=time;
+	}
+	
+	public void updateStudying() {
+		if (this.isStudying()) {
+			this.studying=false;
+		}else {
+			this.studying=true;
+		}
 	}
 	
 
