@@ -5,6 +5,7 @@
  */
 
 @import url('https://cdn.jsdelivr.net/npm/font-kopub@1.0/kopubdotum.min.css');
+
 body {
     font-size: 20px;
     color: #212529;
@@ -38,7 +39,7 @@ a {
 
 a:focus,
 a:hover {
-    color: #0085a1
+    color: white;
 }
 
 blockquote {
@@ -212,6 +213,20 @@ header.masthead .site-heading {
     text-align: center
 }
 
+header.masthead .page-heading button{
+	background: none;
+    color: #fff;
+    border: 1px solid;
+    border-radius: 3px;
+    font-size: 14px;
+    outline: none;
+    padding: 6px;
+    font-family: 'KoPub Dotum';
+    cursor: pointer;
+    
+ 
+}
+
 header.masthead .page-heading h1,
 header.masthead .site-heading h1 {
     font-size: 50px;
@@ -220,6 +235,7 @@ header.masthead .site-heading h1 {
 
 header.masthead .page-heading .subheading,
 header.masthead .site-heading .subheading {
+	font-weight:600;
     font-size: 18px;
     line-height: 1.1;
     display: block;
@@ -415,3 +431,13 @@ footer .copyright {
     font-size: 16px;
     padding: 25px 35px
 }
+
+
+.clock{
+	font-size:60px;
+}
+
+.pagination{
+	display:inline-flex;
+}
+
