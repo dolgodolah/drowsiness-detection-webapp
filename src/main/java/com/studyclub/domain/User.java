@@ -1,10 +1,15 @@
 package com.studyclub.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -22,7 +27,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class User {
 	
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="user_id")
 	private Long id;
 	
 	@Column(nullable = false)
@@ -39,6 +46,9 @@ public class User {
 	
 	@Column
 	private Long studyTime;
+	
+	@OneToMany(mappedBy="user", cascade = CascadeType.ALL)
+	private List<Post> posts = new ArrayList<>();  
 	
 	@PrePersist
 	public void prePersist() {
