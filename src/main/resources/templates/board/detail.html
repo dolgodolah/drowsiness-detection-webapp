@@ -20,6 +20,12 @@
 
 </head>
 
+<style>
+	.fieldError{
+		border-color:#bd2130;
+	}
+</style>
+
 <body>
 
     <header th:insert="/common/header.html"></header>
@@ -42,19 +48,50 @@
     	</div>
   	</header>
   	
-  	<!-- Pager -->
+  	<!-- Comment Content -->
   	<div class="container">
+  		<div class="row">
+	      	<div class="col-lg-8 col-md-10 mx-auto">
+	        	<p>댓글 목록</p>
+	        	<div class="post-preview" th:each="comment : ${comments}">
+	        		<pre><h6 class="post-title" th:text="${comment.content}"></h6></pre>
+	            	
+	            		
+	          		<p class="post-meta" th:text="${comment.author} +' '+ ${#temporals.format(comment.createdAt,'yyyy년 MM월 dd일 HH:mm')}" style="font-size:15px;"></p>
+	        		<hr>
+	        	</div>
+	        	<p style="margin-top:40px;">댓글 작성</p>
+		        <form method="post" th:object="${comment}" th:action="@{'/board/' + ${post.id}}">
+                    <div class="form-group">
+                        <label>닉네임</label>
+                        <input type="text" class="form-control" th:value="${user.nickname}" readonly>
+                    	
+                    </div>
+                    <div class="form-group">
+                        <label>내용</label>
+                        <textarea th:field="*{content}" th:class="${#fields.hasErrors('content')? 'form-control fieldError' : 'form-control'}" style="height:100px;" placeholder="최대 150자까지 작성하실 수 있습니다."></textarea>          	
+                    	<p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
+                    </div>
+                    <button type="submit" class="btn btn-primary">제출하기</button>
+                </form>
+	      	</div>
+	    </div>
+	</div>
+  	
+  	<hr>
+  	<!-- Pager -->
+  	<div class="container" th:if="${session.USER.nickname==post.author}">
 		<div class="row">
 			<div class="col-lg-8 col-md-10 mx-auto">
 	        	<!-- Pager -->
-		        <div class="clearfix" style="display:flex;">
+		        <div class="clearfix">
 		        	<form th:action="@{'/board/edit/'+${post.id}}" method="get">
-		        		<button class="btn btn-primary" style="margin-right:5px;">수정</button>
+		        		<button class="btn btn-primary float-right" style="margin-left:5px;">수정</button>
 		        	</form>
 		        	
-		        	<form th:action="@{'/board/'+${post.id}}" method="post">
+		        	<form name="deleteForm" th:action="@{'/board/'+${post.id}}" method="post">
 		        		<input type="hidden" name="_method" value="delete"/>
-		        		<button class="btn btn-primary" type="submit">삭제</button>
+		        		<button type="button" class="btn btn-primary float-right" onclick="checkDeletion()">삭제</button>
 		        	</form>
 		        	
 		        </div>
@@ -62,12 +99,6 @@
         </div>
    	</div>
 
-   	
-   	<!-- Post Content -->
-  	
-    
-
-    <hr>
 
     <!-- Footer -->
     <footer th:insert="/common/footer.html"></footer>
@@ -80,7 +111,17 @@
 
     <!-- Custom scripts for this template -->
     <script src="/assets/js/clean-blog.min.js"></script>
-
+	
+	<script type="text/javascript">
+		function checkDeletion(){
+			const deleteForm = document.forms['deleteForm'];
+			if (confirm("정말 삭제하시겠습니까?")==true){
+				deleteForm.submit();
+			}else{
+				return;
+			}
+		}
+	</script>
 </body>
 
 </html>

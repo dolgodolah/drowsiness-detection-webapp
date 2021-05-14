@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.studyclub.domain.Comment;
 import com.studyclub.domain.Post;
 import com.studyclub.domain.User;
 import com.studyclub.dto.UserForm;
+import com.studyclub.service.CommentService;
 import com.studyclub.service.PostService;
 import com.studyclub.service.UserService;
 
@@ -31,13 +33,15 @@ public class PostController {
 	private final HttpSession session;
 	private final PostService postService;
 	private final UserService userService;
+	private final CommentService commentService;
 	
 	
 	@Autowired
-	public PostController(HttpSession session, PostService postService, UserService userService) {
+	public PostController(HttpSession session, PostService postService, UserService userService, CommentService commentService) {
 		this.session = session;
 		this.postService = postService;
 		this.userService = userService;
+		this.commentService = commentService;
 	}
 
 	@GetMapping("/board")
@@ -80,10 +84,15 @@ public class PostController {
 	
 	
 	@GetMapping("/board/{postId}")
-	public String detail(@PathVariable("postId") Long postId, Model model) {
+	public String detail(@PathVariable("postId") Long postId, Model model, Comment comment) {
 		UserForm loginUser = (UserForm) session.getAttribute("USER");
 		if (loginUser!=null) {
-			model.addAttribute("post", postService.getPost(postId));
+			Post post = postService.getPost(postId);
+			List<Comment> comments = commentService.getComments(post);
+			model.addAttribute("user", loginUser);
+			model.addAttribute("post", post);
+			model.addAttribute("comment", comment);
+			model.addAttribute("comments", comments);
 			return "/board/detail";
 		}
 		return "redirect:/login";
