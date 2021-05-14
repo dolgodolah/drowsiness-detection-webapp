@@ -44,16 +44,17 @@
 	<div class="container">
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
-                <form method="post" th:object="${post}" action="/board/post">
+                <form method="post" th:object="${post}" th:action="@{'/board/edit/' + ${post.id}}">
+                	<input type="hidden" name="_method" value="put"/>
                     <div class="form-group">
                         <label>제목</label>
-                        <input type="text" th:field="*{title}" class="form-control" placeholder="제목을 입력하세요.">
+                        <input type="text" th:field="*{title}" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>내용</label>
                         <textarea th:field="*{content}" class="form-control" style="height:200px;"></textarea>          	
                     </div>
-                    <button type="submit" class="btn btn-primary">제출하기</button>
+                    <button type="submit" class="btn btn-primary">수정하기</button>
                 </form>
             </div>
         </div>
@@ -62,9 +63,9 @@
     
 
     <hr>
-
-    <!-- Footer -->
+	<!-- Footer -->
     <footer th:insert="/common/footer.html"></footer>
+   
     
     
     <script src="https://code.jquery.com/jquery-latest.js"></script>

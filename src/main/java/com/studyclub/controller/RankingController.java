@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -33,9 +34,13 @@ public class RankingController {
 	public String rank(Model model, @PageableDefault(size=5, sort="studyTime",direction=Sort.Direction.DESC) Pageable pageable) {
 		UserForm loginUser = (UserForm) session.getAttribute("USER");
 		if (loginUser != null) {
-			//현재 page에 대한 정보(Page request [number: 0, size 5, sort: studytime: DESC])를 담아 userService로 보낸다.
-			model.addAttribute("users",userService.rankUser(pageable)); 
 			
+			//현재 pageable에 해당하는 유저들을 가져온다.
+			Page<User> users = userService.rankUser(pageable);
+			model.addAttribute("users", users);
+			//해당 users가 페이지의 첫번째 값이거나 마지막값이면 이에 해당하는 처리를 한다.
+			model.addAttribute("isFirst", users.isFirst());
+			model.addAttribute("isLast",users.isLast());
 			//view에 있는 previous, next에 각각 이전페이지 번호와 다음페이지 번호를 담아보낸다.
 			model.addAttribute("previous",pageable.previousOrFirst().getPageNumber());
 			model.addAttribute("next",pageable.next().getPageNumber());

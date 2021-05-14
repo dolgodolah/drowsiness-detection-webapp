@@ -22,21 +22,20 @@ public class PostService {
 	
 	
 	public Page<Post> getPosts(Pageable pageable){
-		Page<Post> page = postRepository.findAll(pageable);
-		if (page.isLast()) {
-			return postRepository.findAll(page.nextOrLastPageable());
-		}
-		
 		return postRepository.findAll(pageable);
 	}
 	
 	@Transactional
-	public Long addPost(Post post) {
+	public Long savePost(Post post) {
 		return postRepository.save(post).getId();
 	}
 	
 	public Post getPost(Long id) {
 		return postRepository.getOne(id);
+	}
+	
+	public void deletePost(Post post) {
+		postRepository.delete(post);
 	}
 	
 }

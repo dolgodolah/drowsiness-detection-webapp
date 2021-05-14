@@ -56,5 +56,11 @@ public class Post {
 		this.author=user.getNickname();
 		user.getPosts().add(this);
 	}
+	
+	public void edit(Post post) {
+		this.title=post.title;
+		this.content=post.content;
+	}
+
 
 }

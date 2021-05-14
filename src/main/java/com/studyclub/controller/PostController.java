@@ -11,9 +11,11 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.studyclub.domain.Post;
@@ -43,7 +45,7 @@ public class PostController {
 		UserForm loginUser = (UserForm) session.getAttribute("USER");
 		if (loginUser!=null) {
 			Page<Post> posts = postService.getPosts(pageable);
-			model.addAttribute("posts", postService.getPosts(pageable));
+			model.addAttribute("posts", posts);
 			model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
 			model.addAttribute("next", pageable.next().getPageNumber());
 			model.addAttribute("isFirst", posts.isFirst());
@@ -70,15 +72,40 @@ public class PostController {
 		UserForm loginUser = (UserForm) session.getAttribute("USER");
 		User user = userService.findOne(loginUser.getNickname()).get();
 		post.setUser(user);
-		postService.addPost(post);
+		postService.savePost(post);
 		return "redirect:/board";
 	}
 	
 	
+	
+	
 	@GetMapping("/board/{postId}")
 	public String detail(@PathVariable("postId") Long postId, Model model) {
-		model.addAttribute("post", postService.getPost(postId));
-		
-		return "/board/detail";
+		UserForm loginUser = (UserForm) session.getAttribute("USER");
+		if (loginUser!=null) {
+			model.addAttribute("post", postService.getPost(postId));
+			return "/board/detail";
+		}
+		return "redirect:/login";
+	}
+	
+	@DeleteMapping("/board/{postId}")
+	public String delete(@PathVariable("postId") Long postId) {
+		postService.deletePost(postService.getPost(postId));
+		return "redirect:/board";
+	}
+	
+	@GetMapping("/board/edit/{postId}")
+	public String edit(@PathVariable("postId") Long postId, Model model) {
+		model.addAttribute("post",postService.getPost(postId));
+		return "/board/edit";
+	}
+	
+	@PutMapping("/board/edit/{postId}")
+	public String edit(@PathVariable("postId") Long postId ,Post editedPost) {
+		Post post = postService.getPost(postId);
+		post.edit(editedPost);
+		postService.savePost(post);
+		return "redirect:/board/{postId}";
 	}
 }
