@@ -51,5 +51,9 @@ public class UserService {
 	public Page<User> rankUser(Pageable pageable){
 		return userRepository.findAll(pageable);
 	}
+	
+	public List<User> searchRanking(String nickname) {
+		return userRepository.findAll(Sort.by(Sort.Direction.DESC, "studyTime"));
+	}
 
 }

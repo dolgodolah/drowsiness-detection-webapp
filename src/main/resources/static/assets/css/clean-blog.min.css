@@ -440,9 +440,19 @@ footer .copyright {
 }
 
 .search{
-	width:95%;
+	width:93%;
 	display:unset;
-	margin-right:10px;
+	margin-right:7px;
+}
+
+.form-group button{
+	background-color: transparent !important;
+    background-image: none !important;
+    border-color: transparent;
+    border: none;
+
+    color: #FFFFFF;
+	
 }
 
 

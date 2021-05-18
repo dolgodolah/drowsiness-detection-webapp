@@ -1,6 +1,7 @@
 package com.studyclub.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
@@ -55,6 +56,19 @@ public class RankingController {
 			return "/ranking/ranking";
 		}
 		return "redirect:/login";
+	}
+	
+	@GetMapping("/ranking/search")
+	public String searchRanking(String nickname, Model model) {
+		Optional<User> user = userService.findOne(nickname);
+		if (user.isPresent()) {
+			int index = userService.searchRanking(nickname).indexOf(user.get());
+			model.addAttribute("index", index+1);
+			model.addAttribute("user", user.get());
+		}
 		
+		
+		
+		return "/ranking/search";
 	}
 }

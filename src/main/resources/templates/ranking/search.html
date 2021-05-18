@@ -12,9 +12,8 @@
 
     <!-- Bootstrap core CSS -->
     <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Custom styles for this template -->
     <link href="../assets/css/clean-blog.min.css" rel="stylesheet">
@@ -55,33 +54,30 @@
 			        </tr>
 			        </thead>
 			        <tbody>
-			        <tr class="text-center" th:each="user : ${users}">
+			        <tr class="text-center">
 			            <th scope="row">
-			                <span th:text="${userStat.index+1+page}"></span>
+			                <span th:text="${index}"></span>
 			            </th>
 			            <td>
-			                <span th:text="${user.nickname}"></span>
+			                <span th:if="${user}" th:text="${user.nickname}"></span>
 			            </td>
 			            <td>
-			                <span th:text="${user.studyTime}"></span>
+			                <span th:if="${user}" th:text="${user.studyTime}"></span>
 			            </td>
-			            <th>
+			            <th th:if="${user}">
 			        		<span th:if="${user.studying==true}" style="color:green;">●</span>
 			        		<span th:if="${user.studying==false}" style="color:red;">●</span>
 			        	</th>
 			        </tr>
 			        </tbody>
 			    </table>
+			    <a class="btn btn-primary" href="/ranking" style="margin-bottom:30px;">전체 랭킹 보기</a>
+			    
 			    <form class="form-group" method="get" action="/ranking/search">
                     <input class="form-control search" placeholder="닉네임을 입력하세요." name="nickname"><button type="submit" class="fa fa-search" style="color:black;"></button>
                 </form>
 			    
-			    <!-- pager -->
-			    <div class="clearfix">
-		        	<a th:class="${isFirst} ? 'btn btn-primary disabled' : 'btn btn-primary'" th:href="@{'?page=' + ${previous}}">◀</a>
-		          	<a th:class="${isLast} ? 'btn btn-primary disabled' : 'btn btn-primary'" th:href="@{'?page=' + ${next}}">▶</a>
-		          	
-		        </div>
+			    
             </div>
         </div>
     </div>
