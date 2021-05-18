@@ -439,4 +439,10 @@ footer .copyright {
 	display:inline-flex;
 }
 
+.search{
+	width:95%;
+	display:unset;
+	margin-right:10px;
+}
+
 

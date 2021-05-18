@@ -117,4 +117,16 @@ public class PostController {
 		postService.savePost(post);
 		return "redirect:/board/{postId}";
 	}
+	
+	@GetMapping("/board/search")
+	public String search(@PageableDefault(size=5, sort="createdAt", direction = Direction.DESC) Pageable pageable, Model model,String keyword) {
+		Page<Post> posts = postService.search(pageable, keyword);
+		model.addAttribute("posts", posts);
+		model.addAttribute("isFirst", posts.isFirst());
+		model.addAttribute("isLast", posts.isLast());
+		
+		model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
+		model.addAttribute("next", pageable.next().getPageNumber());
+		return "/board/search";
+	}
 }

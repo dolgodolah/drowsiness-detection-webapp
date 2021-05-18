@@ -34,8 +34,13 @@ public class PostService {
 		return postRepository.getOne(id);
 	}
 	
+	@Transactional
 	public void deletePost(Post post) {
 		postRepository.delete(post);
+	}
+	
+	public Page<Post> search(Pageable pageable, String keyword){
+		return postRepository.findByTitleContaining(pageable, keyword);
 	}
 	
 }
