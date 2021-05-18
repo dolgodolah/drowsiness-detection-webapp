@@ -49,13 +49,13 @@
 			            <th scope="col">순위</th>
 			            <th scope="col">닉네임</th>
 			            <th scope="col">경험치</th>
+			            <th scope="col">공부 중</th>
 			        </tr>
 			        </thead>
 			        <tbody>
 			        <tr class="text-center" th:each="user : ${users}">
 			            <th scope="row">
 			                <span th:text="${userStat.index+1+page}"></span>
-			                
 			            </th>
 			            <td>
 			                <span th:text="${user.nickname}"></span>
@@ -63,6 +63,10 @@
 			            <td>
 			                <span th:text="${user.studyTime}"></span>
 			            </td>
+			            <th>
+			        		<span th:if="${user.studying==true}" style="color:green;">●</span>
+			        		<span th:if="${user.studying==false}" style="color:red;">●</span>
+			        	</th>
 			        </tr>
 			        </tbody>
 			    </table>
