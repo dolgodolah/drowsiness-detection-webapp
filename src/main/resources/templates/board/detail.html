@@ -69,7 +69,7 @@
                     </div>
                     <div class="form-group">
                         <label>내용</label>
-                        <textarea th:field="*{content}" th:class="${#fields.hasErrors('content')? 'form-control fieldError' : 'form-control'}" style="height:100px;" placeholder="최대 150자까지 작성하실 수 있습니다."></textarea>          	
+                        <textarea th:field="*{content}" th:class="${#fields.hasErrors('content')? 'form-control fieldError' : 'form-control'}" style="height:100px;" placeholder="최대 150자까지 작성하실 수 있습니다." readonly></textarea>          	
                     	<p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
                     </div>
                     <button type="submit" class="btn btn-primary">제출하기</button>

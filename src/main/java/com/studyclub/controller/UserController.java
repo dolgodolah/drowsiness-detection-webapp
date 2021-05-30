@@ -54,9 +54,9 @@ public class UserController {
 		
 		if (userService.login(user)) {
 			session.setAttribute("USER", userForm);
+			session.setMaxInactiveInterval(20); //세션 2시간 유지 
 			return "redirect:/";
 		}
-		
 		//닉네임이 존재하지 않거나 비밀번호 틀림
 		model.addAttribute("inval", "존재하지 않는 닉네임이거나, 틀린 비밀번호입니다.");
 		return "/user/login";
@@ -91,7 +91,7 @@ public class UserController {
 	@GetMapping("/logout")
 	public String logout() {
 		//로그아웃 시 세션을 초기화한다.
-		session.removeAttribute("USER");
+		session.invalidate();
 		return "redirect:/";
 	}
 

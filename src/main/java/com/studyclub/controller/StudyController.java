@@ -43,7 +43,7 @@ public class StudyController {
 	}
 	
 	@PostMapping("/study")
-	public String saveStudyTime(Long studyTime) {
+	public String study(Long studyTime) {
 		UserForm loginUser = (UserForm) session.getAttribute("USER");
 		User user = userService.findOne(loginUser.getNickname()).get();
 		if (user.isStudying()) {
@@ -51,9 +51,16 @@ public class StudyController {
 			user.updateStudying();
 			userRepository.save(user);
 		}
-		
-		
 		return "redirect:/";
+	}
+	
+	@GetMapping("/refresh")
+	@ResponseBody
+	public void refreshSession() {
+		UserForm loginUser = (UserForm) session.getAttribute("USER");
+		if(loginUser!=null) {
+			session.setMaxInactiveInterval(7200);
+		}
 	}
 	
 	@GetMapping("/check")

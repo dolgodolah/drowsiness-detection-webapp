@@ -60,15 +60,17 @@ public class RankingController {
 	
 	@GetMapping("/ranking/search")
 	public String searchRanking(String nickname, Model model) {
-		Optional<User> user = userService.findOne(nickname);
-		if (user.isPresent()) {
-			int index = userService.searchRanking(nickname).indexOf(user.get());
-			model.addAttribute("index", index+1);
-			model.addAttribute("user", user.get());
+		UserForm loginUser = (UserForm) session.getAttribute("USER");
+		if (loginUser!=null) {
+			Optional<User> user = userService.findOne(nickname);
+			if (user.isPresent()) {
+				int index = userService.searchRanking(nickname).indexOf(user.get());
+				model.addAttribute("index", index+1);
+				model.addAttribute("user", user.get());
+			}
+			
+			return "/ranking/search";
 		}
-		
-		
-		
-		return "/ranking/search";
+		return "redirect:/login";
 	}
 }
