@@ -54,7 +54,7 @@ public class UserController {
 		
 		if (userService.login(user)) {
 			session.setAttribute("USER", userForm);
-			session.setMaxInactiveInterval(20); //세션 2시간 유지 
+			session.setMaxInactiveInterval(7200); //세션 2시간 유지 
 			return "redirect:/";
 		}
 		//닉네임이 존재하지 않거나 비밀번호 틀림
